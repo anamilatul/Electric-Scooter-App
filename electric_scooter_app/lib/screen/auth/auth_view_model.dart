@@ -20,34 +20,4 @@ class AuthProvider with ChangeNotifier {
         fullname: fullname, email: email, password: password);
     notifyListeners();
   }
-
-  // getPref() async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   fullname = prefs.getString(PrefProfile.name);
-  //   createdDate = prefs.getString(PrefProfile.createdAt);
-  //   phone = prefs.getString(PrefProfile.phone);
-  //   email = prefs.getString(PrefProfile.email);
-  //   address = prefs.getString(PrefProfile.address);
-  // }
-
-  // Future isLoggedIn() async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   var email = prefs.getString('email');
-  //   return email != null;
-  // }
-
-  // signOut() async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   prefs.remove(PrefProfile.idUSer);
-  //   prefs.remove(PrefProfile.name);
-  //   prefs.remove(PrefProfile.email);
-  //   prefs.remove(PrefProfile.phone);
-  //   prefs.remove(PrefProfile.address);
-  //   prefs.remove(PrefProfile.cretedAt);
-  //   notifyListeners();
-
-  // Navigator.pushAndRemoveUntil(
-  //     context,
-  //     MaterialPageRoute(builder: (context) => LoginPages()),
-  //     (route) => false);
 }
