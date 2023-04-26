@@ -19,23 +19,23 @@ class _LoginScreenState extends State<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _isLoading = false;
-  late SharedPreferences prefs;
-  late bool newUser;
+  // late SharedPreferences prefs;
+  // late bool newUser;
 
-  @override
-  void initState() {
-    super.initState();
-    checkLogin();
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   checkLogin();
+  // }
 
-  void checkLogin() async {
-    prefs = await SharedPreferences.getInstance();
-    newUser = prefs.getBool('login') ?? true;
-    if (newUser == false) {
-      // ignore: use_build_context_synchronously
-      Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
-    }
-  }
+  // void checkLogin() async {
+  //   prefs = await SharedPreferences.getInstance();
+  //   newUser = prefs.getBool('login') ?? true;
+  //   if (newUser == false) {
+  //     // ignore: use_build_context_synchronously
+  //     Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
+  //   }
+  // }
 
   @override
   void dispose() {
@@ -192,9 +192,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
                                           content: Text('Login Success')));
-                                  prefs.setBool('login', false);
-                                  prefs.setString('fullname', fullname);
-                                  prefs.setString('email', email);
+                                  // print(authProvider.)
+                                  // prefs.setBool('login', false);
+                                  // prefs.setString('fullname', fullname);
+                                  // prefs.setString('email', email);
                                   Navigator.pushNamedAndRemoveUntil(
                                       context, '/home', (route) => false);
                                 }
@@ -225,7 +226,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       const Text('Don\'t have an account ?'),
                       TextButton(
                         onPressed: () {
-                          Navigator.pushNamed(context, '/');
+                          Navigator.pushNamed(context, '/register');
                         },
                         child: const Text(
                           'Register Now',

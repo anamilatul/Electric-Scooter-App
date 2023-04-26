@@ -1,11 +1,12 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-
+import 'package:shared_preferences/shared_preferences.dart';
+import '../shared_pref_profile_model.dart';
 import '../user_model.dart';
 
 class UserAPI {
-  String ipAddress = "192.168.0.102";
+  String ipAddress = "192.168.0.107";
 
   Future loginUser({
     required String fullname,
@@ -22,6 +23,15 @@ class UserAPI {
       if (response.statusCode == 200) {
         Map<String, dynamic> responseData = json.decode(response.body);
         final user = User.fromJson(responseData);
+        //tambahan
+        String idUser = responseData['user_id'];
+        String name = responseData['name'];
+        String email = responseData['email'];
+        String phone = responseData['phone'];
+        String address = responseData['address'];
+        String createdAt = responseData['created_at'];
+        savePrefs(idUser, name, email, phone, address, createdAt);
+        //
         return user;
       }
       debugPrint(response.body.toString());
@@ -58,5 +68,16 @@ class UserAPI {
     } catch (e) {
       rethrow;
     }
+  }
+
+  savePrefs(String idUser, String name, String email, String phone,
+      String address, String createdAt) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    sharedPreferences.setString(PrefProfile.idUSer, idUser);
+    sharedPreferences.setString(PrefProfile.name, name);
+    sharedPreferences.setString(PrefProfile.email, email);
+    sharedPreferences.setString(PrefProfile.phone, phone);
+    sharedPreferences.setString(PrefProfile.address, address);
+    sharedPreferences.setString(PrefProfile.createdAt, createdAt);
   }
 }

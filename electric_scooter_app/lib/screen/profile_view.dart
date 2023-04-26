@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../model/shared_pref_profile_model.dart';
+
 class ProfileView extends StatefulWidget {
   const ProfileView({super.key});
 
@@ -9,38 +11,70 @@ class ProfileView extends StatefulWidget {
 }
 
 class _ProfileViewState extends State<ProfileView> {
-  late SharedPreferences prefs;
-  String fullname = '';
-  String email = '';
+  String fullname = "";
+  String createdDate = "";
+  String phone = "";
+  String email = "";
+  String address = "";
+
+  getPref() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    setState(() {
+      fullname = sharedPreferences.getString(PrefProfile.name).toString();
+      createdDate =
+          sharedPreferences.getString(PrefProfile.createdAt).toString();
+      phone = sharedPreferences.getString(PrefProfile.phone).toString();
+      email = sharedPreferences.getString(PrefProfile.email).toString();
+      address = sharedPreferences.getString(PrefProfile.address).toString();
+    });
+  }
+
+  logout() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    sharedPreferences.remove(PrefProfile.idUSer);
+    sharedPreferences.remove(PrefProfile.name);
+    sharedPreferences.remove(PrefProfile.email);
+    sharedPreferences.remove(PrefProfile.phone);
+    sharedPreferences.remove(PrefProfile.address);
+    sharedPreferences.remove(PrefProfile.createdAt);
+    Navigator.pushNamed(context, '/login');
+  }
+
   @override
   void initState() {
     super.initState();
-    initial();
-  }
-
-  void initial() async {
-    prefs = await SharedPreferences.getInstance();
-    setState(() {
-      fullname = prefs.getString('fullname').toString();
-      email = prefs.getString('email').toString();
-    });
+    getPref();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 248, 244, 232),
       body: SafeArea(
         child: Container(
           padding: const EdgeInsets.symmetric(
             horizontal: 20,
-            vertical: 30,
+            vertical: 20,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      logout();
+                    },
+                    icon: const Icon(
+                      Icons.logout_outlined,
+                      color: Colors.red,
+                      size: 25,
+                    ),
+                  ),
+                ],
+              ),
               const SizedBox(
-                height: 20,
+                height: 3,
               ),
               const SizedBox(
                 height: 100,
@@ -57,59 +91,72 @@ class _ProfileViewState extends State<ProfileView> {
                 height: 30,
               ),
               ListTile(
-                leading: const Icon(Icons.account_circle_outlined),
-                title: const Text(
-                  'Fullname ',
+                leading: const Icon(
+                  Icons.account_circle_outlined,
+                  color: Colors.amberAccent,
+                ),
+                title: Text(
+                  fullname,
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
                 subtitle: Text(
-                  fullname,
+                  "Join at " + createdDate,
                   style: const TextStyle(
-                    fontSize: 20,
+                    fontSize: 14,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
               ),
               const SizedBox(
-                height: 10,
+                height: 5,
               ),
               ListTile(
-                leading: const Icon(Icons.email_outlined),
-                title: const Text(
-                  'Email',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w500,
-                  ),
+                leading: const Icon(
+                  Icons.email_outlined,
+                  color: Colors.amberAccent,
                 ),
-                subtitle: Text(
+                title: Text(
                   email,
-                  style: const TextStyle(
-                    fontSize: 20,
+                  style: TextStyle(
+                    fontSize: 18,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
               ),
               const SizedBox(
-                height: 10,
+                height: 5,
               ),
-              ElevatedButton(
-                onPressed: () {
-                  prefs.setBool('login', true);
-                  prefs.remove('fullname');
-                  prefs.remove('email');
-                  Navigator.pushReplacementNamed(context, '/login');
-                },
-                child: const Text(
-                  'Logout',
+              ListTile(
+                leading: const Icon(
+                  Icons.call_outlined,
+                  color: Colors.amberAccent,
+                ),
+                title: Text(
+                  phone,
                   style: TextStyle(
-                    fontSize: 20,
+                    fontSize: 18,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
+              ),
+              ListTile(
+                leading: const Icon(
+                  Icons.place_outlined,
+                  color: Colors.amberAccent,
+                ),
+                title: Text(
+                  address,
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 5,
               ),
             ],
           ),

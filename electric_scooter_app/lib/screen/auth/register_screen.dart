@@ -179,6 +179,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   TextFormField(
                     controller: _confirmPasswordController,
                     autofocus: false,
+                    obscureText: true,
                     validator: (value) =>
                         Validator.validatePassword(password: value),
                     decoration: InputDecoration(
@@ -222,13 +223,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   final user = Provider.of<AuthProvider>(
                                           context,
                                           listen: false)
-                                      .registUser(fullname, email, password,
-                                          phone, address);
+                                      .registUser(fullname, email, phone,
+                                          address, password);
 
                                   Navigator.pushNamed(context, '/login');
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                          content: Text('Register Success')));
+                                    const SnackBar(
+                                      content: Text('Register Success'),
+                                    ),
+                                  );
 
                                   setState(() {
                                     _isLoading = false;
