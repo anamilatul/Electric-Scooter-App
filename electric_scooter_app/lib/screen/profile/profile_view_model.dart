@@ -17,6 +17,7 @@ class ProfileViewModel with ChangeNotifier {
     phone = sharedPreferences.getString(PrefProfile.phone).toString();
     email = sharedPreferences.getString(PrefProfile.email).toString();
     address = sharedPreferences.getString(PrefProfile.address).toString();
+    notifyListeners();
   }
 
   Future logout() async {
@@ -27,5 +28,6 @@ class ProfileViewModel with ChangeNotifier {
     sharedPreferences.remove(PrefProfile.phone);
     sharedPreferences.remove(PrefProfile.address);
     sharedPreferences.remove(PrefProfile.createdAt);
+    notifyListeners();
   }
 }
