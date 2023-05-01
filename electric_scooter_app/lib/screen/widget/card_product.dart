@@ -31,14 +31,14 @@ class CardProduct extends StatelessWidget {
             width: 115,
             height: 76,
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Text(
             nameProduct,
             textAlign: TextAlign.center,
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Text(

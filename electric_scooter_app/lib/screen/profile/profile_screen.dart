@@ -1,53 +1,24 @@
+import 'package:electric_scooter_app/screen/profile/profile_view_model.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
 
-import '../model/shared_pref_profile_model.dart';
-
-class ProfileView extends StatefulWidget {
-  const ProfileView({super.key});
+class ProfileScreen extends StatefulWidget {
+  const ProfileScreen({super.key});
 
   @override
-  State<ProfileView> createState() => _ProfileViewState();
+  State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-class _ProfileViewState extends State<ProfileView> {
-  String fullname = "";
-  String createdDate = "";
-  String phone = "";
-  String email = "";
-  String address = "";
-
-  getPref() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    setState(() {
-      fullname = sharedPreferences.getString(PrefProfile.name).toString();
-      createdDate =
-          sharedPreferences.getString(PrefProfile.createdAt).toString();
-      phone = sharedPreferences.getString(PrefProfile.phone).toString();
-      email = sharedPreferences.getString(PrefProfile.email).toString();
-      address = sharedPreferences.getString(PrefProfile.address).toString();
-    });
-  }
-
-  logout() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    sharedPreferences.remove(PrefProfile.idUSer);
-    sharedPreferences.remove(PrefProfile.name);
-    sharedPreferences.remove(PrefProfile.email);
-    sharedPreferences.remove(PrefProfile.phone);
-    sharedPreferences.remove(PrefProfile.address);
-    sharedPreferences.remove(PrefProfile.createdAt);
-    Navigator.pushNamed(context, '/login');
-  }
-
+class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     super.initState();
-    getPref();
+    Provider.of<ProfileViewModel>(context, listen: false).getPref();
   }
 
   @override
   Widget build(BuildContext context) {
+    final modelProfile = Provider.of<ProfileViewModel>(context);
     return Scaffold(
       body: SafeArea(
         child: Container(
@@ -63,7 +34,8 @@ class _ProfileViewState extends State<ProfileView> {
                 children: [
                   IconButton(
                     onPressed: () {
-                      logout();
+                      modelProfile.logout();
+                      Navigator.pushNamed(context, '/login');
                     },
                     icon: const Icon(
                       Icons.logout_outlined,
@@ -96,14 +68,14 @@ class _ProfileViewState extends State<ProfileView> {
                   color: Colors.amberAccent,
                 ),
                 title: Text(
-                  fullname,
-                  style: TextStyle(
+                  modelProfile.fullname,
+                  style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
                 subtitle: Text(
-                  "Join at " + createdDate,
+                  "Join at " + modelProfile.createdDate,
                   style: const TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
@@ -119,8 +91,8 @@ class _ProfileViewState extends State<ProfileView> {
                   color: Colors.amberAccent,
                 ),
                 title: Text(
-                  email,
-                  style: TextStyle(
+                  modelProfile.email,
+                  style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w500,
                   ),
@@ -135,8 +107,8 @@ class _ProfileViewState extends State<ProfileView> {
                   color: Colors.amberAccent,
                 ),
                 title: Text(
-                  phone,
-                  style: TextStyle(
+                  modelProfile.phone,
+                  style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w500,
                   ),
@@ -148,8 +120,8 @@ class _ProfileViewState extends State<ProfileView> {
                   color: Colors.amberAccent,
                 ),
                 title: Text(
-                  address,
-                  style: TextStyle(
+                  modelProfile.address,
+                  style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w500,
                   ),

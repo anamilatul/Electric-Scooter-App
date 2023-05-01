@@ -1,31 +1,26 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:electric_scooter_app/screen/card_product.dart';
+import 'package:electric_scooter_app/screen/widget/card_product.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-import '../model/product_model.dart';
-import 'detail_product_view.dart';
+import 'detail_product_screen.dart';
 import 'product_view_model.dart';
 
-class HomeView extends StatefulWidget {
-  const HomeView({super.key});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
 
   @override
-  State<HomeView> createState() => _HomeViewState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeViewState extends State<HomeView> {
+class _HomeScreenState extends State<HomeScreen> {
   int index = 0;
   bool filtering = false;
-  // late SharedPreferences prefs;
-  // String fullname = '';
+
   @override
   void initState() {
     super.initState();
     Provider.of<ProductViewModel>(context, listen: false).getCategories();
-
-    // initial();
+    Provider.of<ProductViewModel>(context, listen: false).getPref();
   }
 
   static final List<String> imgSlider = [
@@ -36,9 +31,9 @@ class _HomeViewState extends State<HomeView> {
   final CarouselSlider autoPlayImage = CarouselSlider(
       items: imgSlider.map((fileImage) {
         return Container(
-          margin: EdgeInsets.all(5.0),
+          margin: const EdgeInsets.all(5.0),
           child: ClipRRect(
-            borderRadius: BorderRadius.all(Radius.circular(10)),
+            borderRadius: const BorderRadius.all(Radius.circular(10)),
             child: Image.asset(
               'assets/images/${fileImage}',
               width: 10000,
@@ -53,15 +48,6 @@ class _HomeViewState extends State<HomeView> {
         enlargeCenterPage: true,
         aspectRatio: 2.0,
       ));
-
-  //  initial() async {
-  //   prefs = await SharedPreferences.getInstance();
-  //   setState(() {
-  //     fullname = prefs.getString('fullname').toString();
-  //   });
-  // }
-
-  // List<ProductCategory> listCategory = [];
 
   @override
   Widget build(BuildContext context) {
@@ -83,16 +69,17 @@ class _HomeViewState extends State<HomeView> {
                   children: [
                     Image.asset(
                       'assets/images/logo_skuter.png',
-                      width: 60,
+                      width: 70,
+                      height: 50,
                       color: Colors.amber,
                       fit: BoxFit.fitWidth,
                     ),
                     const SizedBox(
                       height: 5,
                     ),
-                    const Text(
-                      'Hello,',
-                      style: TextStyle(
+                    Text(
+                      'Hi, ${modelCategory.fullname}',
+                      style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w600,
                       ),
@@ -111,9 +98,12 @@ class _HomeViewState extends State<HomeView> {
                   ],
                 ),
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/cart');
+                  },
                   icon: const Icon(
-                    Icons.shopping_cart,
+                    Icons.shopping_cart_outlined,
+                    size: 30,
                     color: Colors.amber,
                   ),
                 ),
@@ -133,7 +123,7 @@ class _HomeViewState extends State<HomeView> {
                 height: 50,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
-                  color: Color.fromARGB(255, 250, 244, 227),
+                  color: const Color.fromARGB(255, 250, 244, 227),
                 ),
                 child: const TextField(
                   enabled: false,
@@ -158,24 +148,24 @@ class _HomeViewState extends State<HomeView> {
             Container(
               child: autoPlayImage,
             ),
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
             const Text(
               'Electric Scooter Category',
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w500,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             GridView.builder(
-              physics: ClampingScrollPhysics(),
+              physics: const ClampingScrollPhysics(),
               shrinkWrap: true,
               itemCount: modelCategory.categories.length,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 4,
                 mainAxisSpacing: 10,
               ),
@@ -198,7 +188,7 @@ class _HomeViewState extends State<HomeView> {
                           height: 50,
                           fit: BoxFit.fill,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         Text(category.category),
@@ -208,28 +198,29 @@ class _HomeViewState extends State<HomeView> {
                 );
               },
             ),
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
-            Text(
+            const Text(
               'Product',
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w500,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             filtering
                 ? index == 7
-                    ? Text('OnProgress')
+                    ? const Text('OnProgress')
                     : GridView.builder(
-                        physics: ClampingScrollPhysics(),
+                        physics: const ClampingScrollPhysics(),
                         itemCount:
                             modelCategory.categories[index].product.length,
                         shrinkWrap: true,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
                           crossAxisSpacing: 15,
                           mainAxisSpacing: 15,
@@ -242,7 +233,7 @@ class _HomeViewState extends State<HomeView> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          DetailProductView(y)));
+                                          DetailProductScreen(y)));
                             },
                             child: CardProduct(
                               nameProduct: y.nameProduct,
@@ -252,10 +243,11 @@ class _HomeViewState extends State<HomeView> {
                           );
                         })
                 : GridView.builder(
-                    physics: ClampingScrollPhysics(),
+                    physics: const ClampingScrollPhysics(),
                     shrinkWrap: true,
                     itemCount: modelCategory.listProduct.length,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       mainAxisSpacing: 15,
                       crossAxisSpacing: 15,
@@ -267,7 +259,8 @@ class _HomeViewState extends State<HomeView> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => DetailProductView(y)));
+                                  builder: (context) =>
+                                      DetailProductScreen(y)));
                         },
                         child: CardProduct(
                           nameProduct: y.nameProduct,

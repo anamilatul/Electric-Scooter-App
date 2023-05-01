@@ -220,7 +220,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   final phone = _phoneController.text;
                                   final address = _addressController.text;
                                   final password = _passwordController.text;
-                                  final user = Provider.of<AuthProvider>(
+                                  final user = Provider.of<AuthViewModel>(
                                           context,
                                           listen: false)
                                       .registUser(fullname, email, phone,
@@ -239,11 +239,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 }
                               }
                             }, //dummy
-                            child: Text(
+                            child: const Text(
                               'REGISTER',
                               style: TextStyle(
                                 fontSize: 18,
-                                fontWeight: FontWeight.w500,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white,
                               ),
                             ),
                             style: ElevatedButton.styleFrom(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'home_view.dart';
-import 'profile_view.dart';
+import 'home/home_screen.dart';
+import 'profile/profile_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -12,8 +12,8 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
   final _listScreen = [
-    const HomeView(),
-    const ProfileView(),
+    const HomeScreen(),
+    const ProfileScreen(),
   ];
 
   onTapItem(int index) {
@@ -27,6 +27,7 @@ class _MainScreenState extends State<MainScreen> {
     return Scaffold(
       body: _listScreen.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: const Color(0xFFf7f5ef),
         items: const [
           BottomNavigationBarItem(
             icon: Icon(

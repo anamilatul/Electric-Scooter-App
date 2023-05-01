@@ -1,5 +1,3 @@
-// import 'package:shared_preferences/shared_preferences.dart';
-
 class PrefProfile {
   static String idUSer = 'id_user';
   static String name = 'name';

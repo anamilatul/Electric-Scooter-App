@@ -6,7 +6,7 @@ import '../shared_pref_profile_model.dart';
 import '../user_model.dart';
 
 class UserAPI {
-  String ipAddress = "192.168.0.107";
+  String ipAddress = "192.168.0.108";
 
   Future loginUser({
     required String fullname,
@@ -23,7 +23,6 @@ class UserAPI {
       if (response.statusCode == 200) {
         Map<String, dynamic> responseData = json.decode(response.body);
         final user = User.fromJson(responseData);
-        //tambahan
         String idUser = responseData['user_id'];
         String name = responseData['name'];
         String email = responseData['email'];
@@ -31,7 +30,7 @@ class UserAPI {
         String address = responseData['address'];
         String createdAt = responseData['created_at'];
         savePrefs(idUser, name, email, phone, address, createdAt);
-        //
+
         return user;
       }
       debugPrint(response.body.toString());

@@ -1,18 +1,18 @@
-import 'package:electric_scooter_app/screen/product_view_model.dart';
+import 'package:electric_scooter_app/screen/home/product_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'detail_product_view.dart';
-import 'card_product.dart';
+import 'detail_product_screen.dart';
+import '../widget/card_product.dart';
 
-class SearchProductView extends StatefulWidget {
-  const SearchProductView({super.key});
+class SearchProductScreen extends StatefulWidget {
+  const SearchProductScreen({super.key});
 
   @override
-  State<SearchProductView> createState() => _SearchProductViewState();
+  State<SearchProductScreen> createState() => _SearchProductScreenState();
 }
 
-class _SearchProductViewState extends State<SearchProductView> {
+class _SearchProductScreenState extends State<SearchProductScreen> {
   final _searchController = TextEditingController();
   @override
   void initState() {
@@ -97,7 +97,7 @@ class _SearchProductViewState extends State<SearchProductView> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        DetailProductView(y)));
+                                        DetailProductScreen(y)));
                           },
                           child: CardProduct(
                             nameProduct: y.nameProduct,

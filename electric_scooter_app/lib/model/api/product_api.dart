@@ -1,10 +1,9 @@
 import 'dart:convert';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import '../product_model.dart';
 
 class ProductAPI {
-  String ipAddress = "192.168.0.107";
+  String ipAddress = "192.168.0.108";
   Future<List<ProductCategory>> getCategories() async {
     var categoryUrl =
         Uri.parse("http://$ipAddress/escoot/get_product_by_category.php");

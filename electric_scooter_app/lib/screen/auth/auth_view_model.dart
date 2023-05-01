@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../model/api/user_api.dart';
 
-class AuthProvider with ChangeNotifier {
+class AuthViewModel with ChangeNotifier {
   final UserAPI _userAPI = UserAPI();
   Future registUser(String fullname, String email, String phone, String address,
       String password) async {

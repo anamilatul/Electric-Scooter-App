@@ -1,18 +1,15 @@
-import 'package:electric_scooter_app/screen/auth/auth_view_model.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../model/shared_pref_profile_model.dart';
 
-class SplashView extends StatefulWidget {
-  const SplashView({super.key});
+class WelcomeScreen extends StatefulWidget {
+  const WelcomeScreen({super.key});
 
   @override
-  State<SplashView> createState() => _SplashViewState();
+  State<WelcomeScreen> createState() => _WelcomeScreenState();
 }
 
-class _SplashViewState extends State<SplashView> {
+class _WelcomeScreenState extends State<WelcomeScreen> {
   late String _userID;
   String get userID => _userID;
 
@@ -32,7 +29,6 @@ class _SplashViewState extends State<SplashView> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getPref();
   }
@@ -53,11 +49,11 @@ class _SplashViewState extends State<SplashView> {
             const SizedBox(
               height: 10,
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(
+            const Padding(
+              padding: EdgeInsets.symmetric(
                 horizontal: 20,
               ),
-              child: const Text(
+              child: Text(
                 "\t\tWelcome to our electric scooter store! \nFind the perfect scooter for your needs. \nStart riding and join the electric revolution!",
                 style: TextStyle(
                   fontSize: 15,
@@ -67,14 +63,14 @@ class _SplashViewState extends State<SplashView> {
                 textAlign: TextAlign.center,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             ElevatedButton(
               onPressed: () {
                 Navigator.pushNamed(context, '/login');
               },
-              child: Text(
+              child: const Text(
                 'Get Started',
                 style: TextStyle(
                   fontSize: 18,
@@ -84,7 +80,7 @@ class _SplashViewState extends State<SplashView> {
                 textAlign: TextAlign.center,
               ),
               style: ElevatedButton.styleFrom(
-                  padding: EdgeInsets.symmetric(horizontal: 50),
+                  padding: const EdgeInsets.symmetric(horizontal: 50),
                   backgroundColor: Colors.amber,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(50),

@@ -1,9 +1,6 @@
-import 'package:electric_scooter_app/model/api/user_api.dart';
 import 'package:electric_scooter_app/screen/auth/auth_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
 import 'validator.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -19,23 +16,6 @@ class _LoginScreenState extends State<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _isLoading = false;
-  // late SharedPreferences prefs;
-  // late bool newUser;
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   checkLogin();
-  // }
-
-  // void checkLogin() async {
-  //   prefs = await SharedPreferences.getInstance();
-  //   newUser = prefs.getBool('login') ?? true;
-  //   if (newUser == false) {
-  //     // ignore: use_build_context_synchronously
-  //     Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
-  //   }
-  // }
 
   @override
   void dispose() {
@@ -185,27 +165,25 @@ class _LoginScreenState extends State<LoginScreen> {
                                   final email = _emailController.text;
                                   final password = _passwordController.text;
                                   final authProvider =
-                                      Provider.of<AuthProvider>(context,
+                                      Provider.of<AuthViewModel>(context,
                                               listen: false)
                                           .loginUser(fullname, email, password);
                                   Navigator.pushNamed(context, '/home');
                                   ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
                                           content: Text('Login Success')));
-                                  // print(authProvider.)
-                                  // prefs.setBool('login', false);
-                                  // prefs.setString('fullname', fullname);
-                                  // prefs.setString('email', email);
+
                                   Navigator.pushNamedAndRemoveUntil(
                                       context, '/home', (route) => false);
                                 }
                               }
                             },
-                            child: Text(
+                            child: const Text(
                               'LOGIN',
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 18,
-                                fontWeight: FontWeight.w500,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white,
                               ),
                             ),
                             style: ElevatedButton.styleFrom(
