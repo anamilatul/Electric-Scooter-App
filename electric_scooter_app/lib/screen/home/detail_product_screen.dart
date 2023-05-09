@@ -14,7 +14,9 @@ class DetailProductScreen extends StatefulWidget {
 }
 
 class _DetailProductScreenState extends State<DetailProductScreen> {
-  final priceFormat = NumberFormat("#,##0", "EN_US");
+  final priceFormat =
+      NumberFormat.currency(locale: 'id_ID', symbol: 'Rp', decimalDigits: 0);
+
   @override
   void initState() {
     super.initState();
@@ -90,13 +92,13 @@ class _DetailProductScreenState extends State<DetailProductScreen> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Text(
-                          "Rp. " +
-                              priceFormat.format(
-                                int.parse(widget.productModel.price),
-                              ),
+                          priceFormat.format(
+                            int.parse(widget.productModel.price),
+                          ),
                           style: const TextStyle(
                             fontSize: 17,
                             fontWeight: FontWeight.w600,
+                            color: Colors.red,
                           ),
                         ),
                       ],
@@ -154,14 +156,6 @@ class _DetailProductScreenState extends State<DetailProductScreen> {
                     setState(() {});
                   }
                 },
-                child: const Text(
-                  'Add to cart',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white,
-                  ),
-                ),
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 50,
@@ -169,6 +163,14 @@ class _DetailProductScreenState extends State<DetailProductScreen> {
                   ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(50),
+                  ),
+                ),
+                child: const Text(
+                  'Add to cart',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.white,
                   ),
                 ),
               ),

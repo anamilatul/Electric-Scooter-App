@@ -2,6 +2,7 @@ import 'package:electric_scooter_app/screen/auth/auth_view_model.dart';
 import 'package:electric_scooter_app/screen/auth/register_screen.dart';
 import 'package:electric_scooter_app/screen/cart/cart_screen.dart';
 import 'package:electric_scooter_app/screen/cart/cart_view_model.dart';
+import 'package:electric_scooter_app/screen/history/history_view_model.dart';
 import 'package:electric_scooter_app/screen/home/product_view_model.dart';
 import 'package:electric_scooter_app/screen/main_screen.dart';
 import 'package:electric_scooter_app/screen/home/search_product_screen.dart';
@@ -11,6 +12,8 @@ import 'package:electric_scooter_app/screen/welcome_screen.dart';
 import 'package:flutter/material.dart';
 import 'screen/auth/login_screen.dart';
 import 'package:provider/provider.dart';
+
+import 'screen/checkout_success_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -35,6 +38,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => CartViewModel(),
         ),
+        ChangeNotifierProvider(
+          create: (context) => HistoryViewModel(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -52,6 +58,7 @@ class MyApp extends StatelessWidget {
           '/home': (context) => const MainScreen(),
           '/searchProduct': (context) => const SearchProductScreen(),
           '/cart': (context) => const CartScreen(),
+          '/success_checkout': (context) => const CheckoutSuccessScreen(),
         },
       ),
     );

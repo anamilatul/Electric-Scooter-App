@@ -12,7 +12,8 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
-  final priceFormat = NumberFormat("#,##0", "EN_US");
+  final priceFormat =
+      NumberFormat.currency(locale: 'id_ID', symbol: 'Rp', decimalDigits: 0);
   @override
   void initState() {
     super.initState();
@@ -28,7 +29,7 @@ class _CartScreenState extends State<CartScreen> {
           color: Colors.white,
         ),
         title: const Text(
-          'Shopping Cart',
+          'My Cart',
           style: TextStyle(
             fontSize: 20,
             color: Colors.white,
@@ -42,10 +43,9 @@ class _CartScreenState extends State<CartScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Icon(
-                    Icons.remove_shopping_cart_outlined,
-                    color: Colors.amber,
-                    size: 80,
+                  Image.asset(
+                    "assets/images/nothing_product_found.png",
+                    height: 300,
                   ),
                   const SizedBox(
                     height: 20,
@@ -64,13 +64,6 @@ class _CartScreenState extends State<CartScreen> {
                     onPressed: () {
                       Navigator.pushNamed(context, '/home');
                     },
-                    child: const Text(
-                      'Shopping Now',
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white),
-                    ),
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 100,
@@ -79,6 +72,13 @@ class _CartScreenState extends State<CartScreen> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(50),
                       ),
+                    ),
+                    child: const Text(
+                      'Shopping Now',
+                      style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white),
                     ),
                   ),
                 ],
@@ -181,10 +181,9 @@ class _CartScreenState extends State<CartScreen> {
                                               MainAxisAlignment.spaceBetween,
                                           children: [
                                             Text(
-                                              "Rp. " +
-                                                  priceFormat.format(
-                                                    int.parse(y.price),
-                                                  ),
+                                              priceFormat.format(
+                                                int.parse(y.price),
+                                              ),
                                               style: const TextStyle(
                                                 fontSize: 16,
                                                 fontWeight: FontWeight.w500,
@@ -261,10 +260,9 @@ class _CartScreenState extends State<CartScreen> {
                               ),
                             ),
                             Text(
-                              "Rp. " +
-                                  priceFormat.format(
-                                    int.parse(modelCart.sumPrice),
-                                  ),
+                              priceFormat.format(
+                                int.parse(modelCart.sumPrice),
+                              ),
                               style: const TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
@@ -308,12 +306,10 @@ class _CartScreenState extends State<CartScreen> {
                               ),
                             ),
                             Text(
-                              "Rp. " +
-                                  priceFormat.format(
-                                    int.parse(
-                                        modelCart.totalPayment.toString()),
-                                  ),
-                              style: TextStyle(
+                              priceFormat.format(
+                                int.parse(modelCart.totalPayment.toString()),
+                              ),
+                              style: const TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
                               ),
@@ -326,14 +322,42 @@ class _CartScreenState extends State<CartScreen> {
                         SizedBox(
                           width: MediaQuery.of(context).size.width,
                           child: ElevatedButton(
-                            onPressed: () {},
-                            child: const Text(
-                              'Checkout',
-                              style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.white),
-                            ),
+                            onPressed: () {
+                              modelCart.checkoutProduct();
+                              showDialog(
+                                barrierDismissible: false,
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  title: const Text(
+                                    "Payment Information",
+                                    style: TextStyle(
+                                      color: Colors.red,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  content: const Text(
+                                    "Payment can be made via bank transfer to BCA account : 1234567890, account holder name Jonathan Andrew",
+                                    style: TextStyle(
+                                      color: Color.fromARGB(255, 58, 58, 58),
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                    textAlign: TextAlign.justify,
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                        onPressed: () {
+                                          Navigator.pushNamedAndRemoveUntil(
+                                              context,
+                                              '/success_checkout',
+                                              (route) => false);
+                                        },
+                                        child: const Text("Oke"))
+                                  ],
+                                ),
+                              );
+                            },
                             style: ElevatedButton.styleFrom(
                               padding: const EdgeInsets.symmetric(
                                 horizontal: 50,
@@ -342,6 +366,13 @@ class _CartScreenState extends State<CartScreen> {
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(50),
                               ),
+                            ),
+                            child: const Text(
+                              'Checkout',
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white),
                             ),
                           ),
                         ),

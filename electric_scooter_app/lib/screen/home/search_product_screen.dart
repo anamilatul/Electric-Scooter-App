@@ -55,7 +55,7 @@ class _SearchProductScreenState extends State<SearchProductScreen> {
                     ),
                     child: TextField(
                       controller: _searchController,
-                      onChanged: modelCategory.searchroduct,
+                      onChanged: modelCategory.searchProduct,
                       decoration: const InputDecoration(
                         border: InputBorder.none,
                         prefixIcon: Icon(
@@ -73,7 +73,8 @@ class _SearchProductScreenState extends State<SearchProductScreen> {
                 ],
               ),
             ),
-            _searchController.text.isEmpty
+            _searchController.text.isEmpty ||
+                    modelCategory.listSearch.length == 0
                 ? const Center(
                     child: Text('Nothing product to show !'),
                   )
@@ -90,7 +91,7 @@ class _SearchProductScreenState extends State<SearchProductScreen> {
                         crossAxisSpacing: 15,
                       ),
                       itemBuilder: (context, i) {
-                        final y = modelCategory.listProduct[i];
+                        final y = modelCategory.listSearch[i];
                         return GestureDetector(
                           onTap: () {
                             Navigator.push(

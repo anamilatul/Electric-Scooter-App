@@ -223,35 +223,34 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   final user = Provider.of<AuthViewModel>(
                                           context,
                                           listen: false)
-                                      .registUser(fullname, email, phone,
-                                          address, password);
+                                      .registUser(context, fullname, email,
+                                          phone, address, password);
 
-                                  Navigator.pushNamed(context, '/login');
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text('Register Success'),
-                                    ),
-                                  );
-
-                                  setState(() {
-                                    _isLoading = false;
-                                  });
+                                  // Navigator.pushNamed(context, '/login');
+                                  // ScaffoldMessenger.of(context).showSnackBar(
+                                  //   const SnackBar(
+                                  //     content: Text('Register Success'),
+                                  //   ),
+                                  // );
                                 }
+                                setState(() {
+                                  _isLoading = false;
+                                });
                               }
-                            }, //dummy
+                            },
+                            style: ElevatedButton.styleFrom(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 50),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(50),
+                              ),
+                            ),
                             child: const Text(
                               'REGISTER',
                               style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w600,
                                 color: Colors.white,
-                              ),
-                            ),
-                            style: ElevatedButton.styleFrom(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 50),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(50),
                               ),
                             ),
                           ),

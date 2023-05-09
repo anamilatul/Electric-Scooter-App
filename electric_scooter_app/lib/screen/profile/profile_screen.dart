@@ -75,7 +75,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ),
                 subtitle: Text(
-                  "Join at " + modelProfile.createdDate,
+                  "Join at ${modelProfile.createdDate}",
                   style: const TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w500,

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:electric_scooter_app/model/api/cart_api.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -62,24 +64,37 @@ class CartViewModel with ChangeNotifier {
     int value = response['value'];
     String message = response['message'];
     if (value == 1) {
-      print('value = $value \n message = $message');
+      debugPrint(message);
+      getPref();
     } else {
-      print('value = $value \n message = $message');
+      debugPrint(message);
+      getPref();
     }
-    getPref();
+
     notifyListeners();
   }
 
-  void getCartTotalPrice() async {
+  Future getCartTotalPrice() async {
     try {
       _sumPrice = await CartAPI().getCartTotalPrice() ?? '0';
       _totalPayment = int.parse(_sumPrice) + _delivery;
     } catch (e) {
       print(e.toString());
-      _sumPrice = '0';
-      _totalPayment = 0;
+      // _sumPrice = '0';
+      // _totalPayment = 0;
     }
     // totalPayment = sumPrice == null ? 0 : int.parse(sumPrice) + delivery;
+    notifyListeners();
+  }
+
+  Future checkoutProduct() async {
+    try {
+      final response = await CartAPI().checkout();
+      return response;
+    } catch (e) {
+      print(e.toString());
+    }
+
     notifyListeners();
   }
 }

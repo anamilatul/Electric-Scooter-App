@@ -1,11 +1,12 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import '../cart_model.dart';
 import '../shared_pref_profile_model.dart';
 
 class CartAPI {
-  String ipAddress = "192.168.0.108";
+  String ipAddress = "192.168.8.114";
 
   Future<Map<String, dynamic>> addToCart({
     required String userId,
@@ -31,7 +32,7 @@ class CartAPI {
     String userID = sharedPreferences.getString(PrefProfile.idUSer).toString();
     List<CartModel> listCart = [];
     var getCartUrl =
-        Uri.parse("http://$ipAddress/escoot/get_cart.php?userID=" + userID);
+        Uri.parse("http://$ipAddress/escoot/get_cart.php?userID=$userID");
     final response = await http.get(getCartUrl);
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
@@ -46,13 +47,18 @@ class CartAPI {
     var updateQuantityUrl =
         Uri.parse("http://$ipAddress/escoot/update_quantity.php");
     final response = await http.post(updateQuantityUrl, body: {
-      "idCart": model,
+      "cartID": model,
       "type": type,
     });
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
       int value = data['value'];
       String message = data['message'];
+      if (value == 1) {
+        debugPrint(message);
+      } else {
+        debugPrint(message);
+      }
       return {"value": value, "message": message};
     } else {
       throw Exception('Failed to Update Quantity');
@@ -64,7 +70,7 @@ class CartAPI {
     String userID = sharedPreferences.getString(PrefProfile.idUSer).toString();
     var sumPrice = "0";
     var getCartTotalPriceUrl = Uri.parse(
-        "http://$ipAddress/escoot/get_total_price.php?userID=" + userID);
+        "http://$ipAddress/escoot/get_total_price.php?userID=$userID");
     final response = await http.get(getCartTotalPriceUrl);
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
@@ -73,5 +79,22 @@ class CartAPI {
       print(sumPrice);
     }
     return sumPrice;
+  }
+
+  Future checkout() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    String userID = sharedPreferences.getString(PrefProfile.idUSer).toString();
+    var checkoutUrl = Uri.parse("http://$ipAddress/escoot/checkout.php");
+    final response = await http.post(checkoutUrl, body: {
+      "idUser": userID,
+    });
+    final data = jsonDecode(response.body);
+    int value = data['value'];
+    String message = data['message'];
+    if (value == 1) {
+      debugPrint(message);
+    } else {
+      debugPrint(message);
+    }
   }
 }

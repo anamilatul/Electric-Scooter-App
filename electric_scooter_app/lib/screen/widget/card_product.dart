@@ -15,37 +15,54 @@ class CardProduct extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final priceFormat = NumberFormat("#,##0", "EN_US");
+    final priceFormat =
+        NumberFormat.currency(locale: 'id_ID', symbol: 'Rp', decimalDigits: 0);
+
     return Container(
-      height: 150,
+      height: 450,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
+        border: Border.all(
+          color: const Color.fromARGB(255, 242, 241, 241),
+          width: 1,
+        ),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Image.network(
             imageProduct,
             width: 115,
             height: 76,
+            alignment: Alignment.center,
           ),
           const SizedBox(
-            height: 10,
+            height: 8,
           ),
-          Text(
-            nameProduct,
-            textAlign: TextAlign.center,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 7),
+            child: Text(
+              nameProduct,
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+              ),
+              textAlign: TextAlign.center,
+            ),
           ),
           const SizedBox(
-            height: 10,
+            height: 8,
           ),
           Text(
-            "Rp. " +
-                priceFormat.format(
-                  int.parse(price),
-                ),
+            priceFormat.format(
+              int.parse(price),
+            ),
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              color: Colors.red,
+            ),
           ),
         ],
       ),

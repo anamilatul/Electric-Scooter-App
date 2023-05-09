@@ -1,3 +1,4 @@
+import 'package:electric_scooter_app/screen/history/history_screen.dart';
 import 'package:flutter/material.dart';
 import 'home/home_screen.dart';
 import 'profile/profile_screen.dart';
@@ -13,6 +14,7 @@ class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
   final _listScreen = [
     const HomeScreen(),
+    const HistoryScreen(),
     const ProfileScreen(),
   ];
 
@@ -34,6 +36,12 @@ class _MainScreenState extends State<MainScreen> {
               Icons.home,
             ),
             label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.history,
+            ),
+            label: 'History',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle_outlined),

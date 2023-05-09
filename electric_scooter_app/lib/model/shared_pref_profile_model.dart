@@ -1,4 +1,5 @@
 class PrefProfile {
+  //for user
   static String idUSer = 'id_user';
   static String name = 'name';
   static String email = 'email';

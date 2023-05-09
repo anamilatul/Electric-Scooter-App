@@ -22,12 +22,13 @@ class ProfileViewModel with ChangeNotifier {
 
   Future logout() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    sharedPreferences.remove(PrefProfile.idUSer);
-    sharedPreferences.remove(PrefProfile.name);
-    sharedPreferences.remove(PrefProfile.email);
-    sharedPreferences.remove(PrefProfile.phone);
-    sharedPreferences.remove(PrefProfile.address);
-    sharedPreferences.remove(PrefProfile.createdAt);
+    // sharedPreferences.remove(PrefProfile.idUSer);
+    // sharedPreferences.remove(PrefProfile.name);
+    // sharedPreferences.remove(PrefProfile.email);
+    // sharedPreferences.remove(PrefProfile.phone);
+    // sharedPreferences.remove(PrefProfile.address);
+    // sharedPreferences.remove(PrefProfile.createdAt);
+    sharedPreferences.clear();
     notifyListeners();
   }
 }

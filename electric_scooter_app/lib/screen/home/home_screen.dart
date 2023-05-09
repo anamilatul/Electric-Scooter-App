@@ -19,8 +19,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    Provider.of<ProductViewModel>(context, listen: false).getCategories();
     Provider.of<ProductViewModel>(context, listen: false).getPref();
+    Provider.of<ProductViewModel>(context, listen: false).getCategories();
   }
 
   static final List<String> imgSlider = [
@@ -35,7 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: ClipRRect(
             borderRadius: const BorderRadius.all(Radius.circular(10)),
             child: Image.asset(
-              'assets/images/${fileImage}',
+              'assets/images/$fileImage',
               width: 10000,
               fit: BoxFit.cover,
             ),
@@ -51,7 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final modelCategory = Provider.of<ProductViewModel>(context);
+    final modelProduct = Provider.of<ProductViewModel>(context);
     return Scaffold(
       body: SafeArea(
         child: ListView(
@@ -78,7 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       height: 5,
                     ),
                     Text(
-                      'Hi, ${modelCategory.fullname}',
+                      'Hi, ${modelProduct.fullname}',
                       style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w600,
@@ -88,7 +88,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       height: 5,
                     ),
                     const Text(
-                      'Welcome to Electric Scooter Store, \nFind the best electric scooter here !',
+                      'Find the best electric scooter here!',
                       style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w400,
@@ -107,6 +107,43 @@ class _HomeScreenState extends State<HomeScreen> {
                     color: Colors.amber,
                   ),
                 ),
+                // Stack(
+                //   children: [
+                //     IconButton(
+                //       onPressed: () {
+                //         Navigator.pushNamed(context, '/cart');
+                //       },
+                //       icon: const Icon(
+                //         Icons.shopping_cart_outlined,
+                //         size: 30,
+                //         color: Colors.amber,
+                //       ),
+                //     ),
+                //     modelProduct.totalCart == "0"
+                //         ? SizedBox()
+                //         : Positioned(
+                //             right: 5,
+                //             top: 5,
+                //             child: Container(
+                //               height: 15,
+                //               width: 15,
+                //               decoration: BoxDecoration(
+                //                 color: Colors.red,
+                //                 borderRadius: BorderRadius.circular(30),
+                //               ),
+                //               child: Center(
+                //                 child: Text(
+                //                   modelProduct.totalCart,
+                //                   style: TextStyle(
+                //                     color: Colors.white,
+                //                     fontSize: 10,
+                //                   ),
+                //                 ),
+                //               ),
+                //             ),
+                //           ),
+                //   ],
+                // ),
               ],
             ),
             const SizedBox(
@@ -152,10 +189,10 @@ class _HomeScreenState extends State<HomeScreen> {
               height: 15,
             ),
             const Text(
-              'Electric Scooter Category',
+              'Categories',
               style: TextStyle(
                 fontSize: 18,
-                fontWeight: FontWeight.w500,
+                fontWeight: FontWeight.w600,
               ),
             ),
             const SizedBox(
@@ -164,13 +201,13 @@ class _HomeScreenState extends State<HomeScreen> {
             GridView.builder(
               physics: const ClampingScrollPhysics(),
               shrinkWrap: true,
-              itemCount: modelCategory.categories.length,
+              itemCount: modelProduct.categories.length,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 4,
                 mainAxisSpacing: 10,
               ),
               itemBuilder: (context, i) {
-                final category = modelCategory.categories[i];
+                final category = modelProduct.categories[i];
                 return GestureDetector(
                   onTap: () {
                     setState(() {
@@ -205,7 +242,7 @@ class _HomeScreenState extends State<HomeScreen> {
               'Product',
               style: TextStyle(
                 fontSize: 18,
-                fontWeight: FontWeight.w500,
+                fontWeight: FontWeight.w600,
               ),
             ),
             const SizedBox(
@@ -217,7 +254,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     : GridView.builder(
                         physics: const ClampingScrollPhysics(),
                         itemCount:
-                            modelCategory.categories[index].product.length,
+                            modelProduct.categories[index].product.length,
                         shrinkWrap: true,
                         gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(
@@ -226,7 +263,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           mainAxisSpacing: 15,
                         ),
                         itemBuilder: (context, i) {
-                          final y = modelCategory.categories[index].product[i];
+                          final y = modelProduct.categories[index].product[i];
                           return GestureDetector(
                             onTap: () {
                               Navigator.push(
@@ -245,7 +282,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 : GridView.builder(
                     physics: const ClampingScrollPhysics(),
                     shrinkWrap: true,
-                    itemCount: modelCategory.listProduct.length,
+                    itemCount: modelProduct.listProduct.length,
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
@@ -253,7 +290,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       crossAxisSpacing: 15,
                     ),
                     itemBuilder: (context, i) {
-                      final y = modelCategory.listProduct[i];
+                      final y = modelProduct.listProduct[i];
                       return GestureDetector(
                         onTap: () {
                           Navigator.push(

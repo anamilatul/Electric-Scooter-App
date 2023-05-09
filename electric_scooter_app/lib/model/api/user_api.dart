@@ -3,43 +3,72 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import '../shared_pref_profile_model.dart';
-import '../user_model.dart';
+// import '../user_model.dart';
 
 class UserAPI {
-  String ipAddress = "192.168.0.108";
+  String ipAddress = "192.168.8.114";
 
-  Future loginUser({
+  Future loginUser(
+    BuildContext context, {
     required String fullname,
     required String email,
     required String password,
   }) async {
-    try {
-      var loginUrl = Uri.parse("http://$ipAddress/escoot/login_api.php");
-      final response = await http.post(loginUrl, body: {
-        'fullname': fullname,
-        'email': email,
-        'password': password,
-      });
-      if (response.statusCode == 200) {
-        Map<String, dynamic> responseData = json.decode(response.body);
-        final user = User.fromJson(responseData);
-        String idUser = responseData['user_id'];
-        String name = responseData['name'];
-        String email = responseData['email'];
-        String phone = responseData['phone'];
-        String address = responseData['address'];
-        String createdAt = responseData['created_at'];
-        savePrefs(idUser, name, email, phone, address, createdAt);
+    var loginUrl = Uri.parse("http://$ipAddress/escoot/login_api.php");
+    final response = await http.post(loginUrl, body: {
+      'fullname': fullname,
+      'email': email,
+      'password': password,
+    });
+    if (response.statusCode == 200) {
+      final responseData = json.decode(response.body);
+      // final user = User.fromJson(responseData);
+      String idUser = responseData['user_id'] ?? '';
+      String name = responseData['name'] ?? '';
+      String email = responseData['email'] ?? '';
+      String phone = responseData['phone'] ?? '';
+      String address = responseData['address'] ?? '';
+      String createdAt = responseData['created_at'] ?? '';
+      savePrefs(idUser, name, email, phone, address, createdAt);
+      int value = responseData['value'];
+      String message = responseData['message'];
 
-        return user;
+      if (value == 1) {
+        debugPrint(message);
+        // ignore: use_build_context_synchronously
+        Navigator.pushNamed(context, '/home');
+        // ignore: use_build_context_synchronously
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Login Success'),
+          ),
+        );
+        savePrefs(idUser, name, email, phone, address, createdAt);
+      } else {
+        debugPrint(message);
+        // ignore: use_build_context_synchronously
+        showDialog(
+            barrierDismissible: false,
+            context: context,
+            builder: (context) => AlertDialog(
+                  title: const Text("Information"),
+                  content: Text(message),
+                  actions: [
+                    TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: const Text("Ok"))
+                  ],
+                ));
       }
-      debugPrint(response.body.toString());
-    } catch (e) {
-      rethrow;
+      // return user;
     }
+    debugPrint(response.body.toString());
   }
 
-  Future registUser({
+  Future registUser(
+    BuildContext context, {
     required String fullname,
     required String email,
     required String phone,
@@ -59,13 +88,42 @@ class UserAPI {
         },
       );
       if (response.statusCode == 200) {
-        final Map<String, dynamic> responseData = jsonDecode(response.body);
-        final user = User.fromJson(responseData);
-        return user;
+        final responseData = jsonDecode(response.body);
+        // final user = User.fromJson(responseData);
+        int value = responseData['value'];
+        String message = responseData['message'];
+        if (value == 1) {
+          debugPrint(message);
+          // ignore: use_build_context_synchronously
+          Navigator.pushNamed(context, '/login');
+          // ignore: use_build_context_synchronously
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Register Success'),
+            ),
+          );
+        } else {
+          debugPrint(message);
+          // ignore: use_build_context_synchronously
+          showDialog(
+              barrierDismissible: false,
+              context: context,
+              builder: (context) => AlertDialog(
+                    title: const Text("Information"),
+                    content: Text(message),
+                    actions: [
+                      TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Text("Oke"))
+                    ],
+                  ));
+        }
       }
       debugPrint(response.body.toString());
     } catch (e) {
-      rethrow;
+      throw Exception('Error');
     }
   }
 

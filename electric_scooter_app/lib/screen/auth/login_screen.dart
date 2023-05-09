@@ -1,6 +1,7 @@
 import 'package:electric_scooter_app/screen/auth/auth_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'validator.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -164,33 +165,43 @@ class _LoginScreenState extends State<LoginScreen> {
                                   final fullname = _fullnameController.text;
                                   final email = _emailController.text;
                                   final password = _passwordController.text;
-                                  final authProvider =
-                                      Provider.of<AuthViewModel>(context,
-                                              listen: false)
-                                          .loginUser(fullname, email, password);
-                                  Navigator.pushNamed(context, '/home');
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                          content: Text('Login Success')));
-
-                                  Navigator.pushNamedAndRemoveUntil(
-                                      context, '/home', (route) => false);
+                                  final user = Provider.of<AuthViewModel>(
+                                          context,
+                                          listen: false)
+                                      .loginUser(
+                                          context, fullname, email, password);
+                                  // if (authProvider != null) {
+                                  //   Navigator.pushNamed(context, '/home');
+                                  //   ScaffoldMessenger.of(context).showSnackBar(
+                                  //       const SnackBar(
+                                  //           content: Text('Login Success')));
+                                  //   Navigator.pushNamedAndRemoveUntil(
+                                  //       context, '/home', (route) => false);
+                                  // } else {
+                                  //   ScaffoldMessenger.of(context).showSnackBar(
+                                  //       const SnackBar(
+                                  //           content: Text('Failed to login')));
+                                  // }
+                                  // loginData.setBool('login', false);
                                 }
+                                setState(() {
+                                  _isLoading = false;
+                                });
                               }
                             },
+                            style: ElevatedButton.styleFrom(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 50),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(50),
+                              ),
+                            ),
                             child: const Text(
                               'LOGIN',
                               style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w600,
                                 color: Colors.white,
-                              ),
-                            ),
-                            style: ElevatedButton.styleFrom(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 50),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(50),
                               ),
                             ),
                           ),

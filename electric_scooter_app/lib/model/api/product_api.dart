@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import '../product_model.dart';
 
 class ProductAPI {
-  String ipAddress = "192.168.0.108";
+  String ipAddress = "192.168.8.114";
   Future<List<ProductCategory>> getCategories() async {
     var categoryUrl =
         Uri.parse("http://$ipAddress/escoot/get_product_by_category.php");
